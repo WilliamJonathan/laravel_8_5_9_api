@@ -1,0 +1,24 @@
+/**
+ * Para criar um model, controller, migration e popular controller com metodos padrões de uma só fez usar comando:
+ * php artisan make:model --migrate --controller --resource NomeModel
+ * ou abreviação
+ * php artisan make:model -mcr Nome
+ * ou comando all, que neste caso cria uma factory e um seeder tambem
+ * php artisan make:model (--all) ou (--a) Nome
+ */
+
+ /**
+ * para resolver o erro (SQLSTATE 42000: Syntax error or access violation: 
+ * 1071 Specified key was too long; max key length is 767 bytes com PHP)
+ * ---------------------------------------------------------------------
+ * 1 - Edite o arquivo app\Providers\AppServiceProvider.php
+ * 2 - Adicione o namespace use Illuminate\Support\Facades\Schema;
+ * 3 - Dentro do método boot adicione Schema::defaultStringLength(191);
+ * resultado:
+ * use Illuminate\Support\Facades\Schema;
+ *
+ *  public function boot()
+ *  {
+ *       Schema::defaultStringLength(191);
+ *  }
+ */
