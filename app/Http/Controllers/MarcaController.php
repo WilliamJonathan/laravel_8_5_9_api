@@ -86,6 +86,25 @@ class MarcaController extends Controller
         if($marca === null){
             return response()->json(['erro' => 'Impossivel realizar a atualização, indice inexistente'], 404);
         }
+
+        if($request->method() === 'PATCH'){
+
+            $regrasDinamicas = array();
+
+            //percorre todas as regras definas no model
+            foreach ($marca->rules() as $input => $regra) {
+                //coleta apenas as regras aplicaveis aos parametros parciais da requisição
+                if (array_key_exists($input, $request->all())) {
+                    $regrasDinamicas[$input] = $regra;
+                }
+            }
+
+            $request->validate($regrasDinamicas, $marca->feedback());
+
+        }else{
+            $request->validate($marca->rules(), $marca->feedback());
+        }
+
         $marca->update($request->all());
         return $marca;
     }
