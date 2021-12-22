@@ -23,7 +23,7 @@ class Marca extends Model
     {
         return [
             'nome' => 'required|unique:marcas,nome,'.$this->id,
-            'imagem' => 'required'
+            'imagem' => 'required|file|mimes:png'
         ];
     }
 
@@ -31,6 +31,7 @@ class Marca extends Model
     {
         return [
             'required' => 'O campo :attribute é obrigatorio',
+            'imagem.mimes' => 'O arquivo deve ser uma imagem do tipo PNG',
             'nome.unique' => 'O Nome da marca já existe'
         ];
     }

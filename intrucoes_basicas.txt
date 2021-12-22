@@ -22,3 +22,8 @@
  *       Schema::defaultStringLength(191);
  *  }
  */
+
+ /**
+  * comando apra criar um link simbolico
+  * php artisan storage:link
+  */
