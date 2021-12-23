@@ -20,7 +20,7 @@ class ModeloController extends Controller
      */
     public function index(Request $request)
     {
-        $modelos = Array();
+        $modelos = array();
 
         //pesquisar campos especificos da tabela marca
         if ($request->has('atributos_marca')) {
