@@ -20,7 +20,7 @@ class ModeloController extends Controller
      */
     public function index()
     {
-        $modelo = $this->modelo->all();
+        $modelo = $this->modelo->with('marca')->get();
         return $modelo;
     }
 
@@ -69,7 +69,7 @@ class ModeloController extends Controller
      */
     public function show($id)
     {
-        $modelo = $this->modelo->find($id);
+        $modelo = $this->modelo->with('marca')->find($id);
         if($modelo === null){
             return response()->json(['erro' => 'Recurso pesquisado não existe'], 404);
         }
