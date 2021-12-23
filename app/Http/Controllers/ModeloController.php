@@ -22,6 +22,7 @@ class ModeloController extends Controller
     {
         $modelos = Array();
 
+        //pesquisar campos especificos da tabela marca
         if ($request->has('atributos_marca')) {
             $atributos_marca = $request->atributos_marca;
             $modelos = $this->modelo->with('marca:id,'.$atributos_marca);
@@ -29,6 +30,13 @@ class ModeloController extends Controller
             $modelos = $this->modelo->with('marca');
         }
 
+        //clausula where
+        if ($request->has('filtro')) {
+            $condicoes = explode(':', $request->filtro);
+            $modelos = $modelos->where($condicoes[0], $condicoes[1], $condicoes[2]);
+        }
+
+        //pesquisar campos especificos da tabela modelos
         if ($request->has('atributos')) {
             $atributos = $request->atributos;
             $modelos = $modelos->selectRaw($atributos)->get();
