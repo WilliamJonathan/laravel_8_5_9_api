@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Modelo;
 use Illuminate\Http\Request;
 
@@ -115,7 +116,7 @@ class ModeloController extends Controller
             $request->validate($regrasDinamicas);
 
         }else{
-            $request->validate($marca->rules());
+            $request->validate($modelo->rules());
         }
 
         //remove um arquivo antigo caso um novo arquivo tenha sido enviado no request
