@@ -18,10 +18,19 @@ class ModeloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $modelo = $this->modelo->with('marca')->get();
-        return $modelo;
+        $modelos = Array();
+
+        if ($request->has('atributos')) {
+            $atributos = $request->atributos;
+            $modelos = $this->modelo->selectRaw($atributos)->with('marca')->get();
+        }else{
+            $modelos = $this->modelo->with('marca')->get();
+        }
+
+        //$modelo = $this->modelo->with('marca')->get();
+        return response()->json($modelos, 200);
     }
 
     /**
@@ -125,8 +134,19 @@ class ModeloController extends Controller
         }
 
         $imagem = $request->file('imagem');
-        $imagem_urn =  $imagem->store('imagens/modelos', 'public');
+        $imagem_urn = null;
+        if ($imagem != null) {
+            $imagem_urn =  $imagem->store('imagens/modelos', 'public');
+        }
 
+        //preencher o objeto marca com os dados do request
+        $modelo->fill($request->all());
+        if ($imagem_urn != null) {
+            $modelo->imagem = $imagem_urn;
+        }
+        $modelo->save();
+
+        /*
         $modelo->update([
             'marca_id' => $request->marca_id,
             'nome' => $request->nome,
@@ -136,6 +156,7 @@ class ModeloController extends Controller
             'air_bag' => $request->air_bag,
             'abs' => $request->abs
         ]);
+        */
         return $modelo;
     }
 
